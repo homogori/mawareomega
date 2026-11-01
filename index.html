@@ -61,7 +61,7 @@ function loop(now){
  while(stage<ST.length-1&&rot>=ST[stage+1]){stage++;banner=2.2;bannerTxt=NAME[stage];flash=1;chime(stage)}
  if(gain&&ac)gain.gain.setTargetAtTime(Math.min(spd*0.3,0.08),ac.currentTime,.05),osc.frequency.setTargetAtTime(60+spd*600,ac.currentTime,.05);
 
- const cx=W/2,cy=H*0.56,s=Math.min(W,H)/560;
+ const cx=W/2,cy=H*0.56+50,s=Math.min(W,H)/560;
  let shx=0,shy=0;if(stage>=8){const k=Math.min(spd*12,8+stage);shx=(Math.random()-.5)*k;shy=(Math.random()-.5)*k}
  x.save();x.translate(shx,shy);
 
