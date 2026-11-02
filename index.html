@@ -68,7 +68,7 @@ function loop(now){
  while(stage<ST.length-1&&rot>=ST[stage+1]){stage++;banner=2.2;bannerTxt=NAME[stage];flash=1;chime(stage)}
  if(gain&&ac)gain.gain.setTargetAtTime(Math.min(spd*0.3,0.08),ac.currentTime,.05),osc.frequency.setTargetAtTime(60+spd*600,ac.currentTime,.05);
 
- const cx=W/2,cy=H*0.56,s=Math.min(W,H)/560;
+ const cx=W/2,cy=H*0.56,s=Math.min(W,H)/560,gx=cx+21*s,gy=cy+100-29*s;
  let shx=0,shy=0;if(stage>=8){const k=Math.min(spd*12,8+stage);shx=(Math.random()-.5)*k;shy=(Math.random()-.5)*k}
  x.save();x.translate(shx,shy);
 
@@ -76,10 +76,10 @@ function loop(now){
  if(stage>=8){x.fillStyle=`hsl(${(t*40)%360},60%,6%)`}else x.fillStyle='#fff';
  x.fillRect(-20,-20,W+40,H+40);
  if(stage>=8){for(let i=0;i<80;i++){const r=(i*97+t*60*(1+i%5))%Math.max(W,H);const a2=i*2.399;x.fillStyle='#fff';x.globalAlpha=.6;x.fillRect(cx+Math.cos(a2)*r,cy+Math.sin(a2)*r,2,2)}x.globalAlpha=1}
- if(stage>=4){const n=stage>=9?36:18,R=Math.max(W,H);x.save();x.translate(cx,cy-60*s);x.rotate(t*(0.3+spd*1.5));
+ if(stage>=4){const n=stage>=9?36:18,R=Math.max(W,H);x.save();x.translate(gx,gy);x.rotate(t*(0.3+spd*1.5));
   for(let i=0;i<n;i++){x.beginPath();x.moveTo(0,0);x.arc(0,0,R,i/n*Math.PI*2,(i+.5)/n*Math.PI*2);x.closePath();x.fillStyle=stage>=8?`hsla(${i*360/n+t*90},100%,55%,.35)`:(i%2?'#ffe26a':'#fff3b0');x.fill()}
   x.restore()}
- if(stage>=3){const g=x.createRadialGradient(cx,cy-60*s,10,cx,cy-60*s,260*s*(1+stage*.08));g.addColorStop(0,`hsla(${t*200%360},100%,70%,.55)`);g.addColorStop(1,'hsla(0,0%,100%,0)');x.fillStyle=g;x.fillRect(0,0,W,H)}
+ if(stage>=3){const g=x.createRadialGradient(gx,gy,10,gx,gy,260*s*(1+stage*.08));g.addColorStop(0,`hsla(${t*200%360},100%,70%,.55)`);g.addColorStop(1,'hsla(0,0%,100%,0)');x.fillStyle=g;x.fillRect(0,0,W,H)}
 
  // 分身
  if(stage>=7){const n=stage>=10?12:stage>=9?8:5;for(let i=0;i<n;i++){const a2=i/n*Math.PI*2+t*(0.8+spd*1);const rr=(200+40*Math.sin(t*2))*s*(stage>=9?1.4:1);
@@ -94,7 +94,7 @@ function loop(now){
  if(stage>=6){x.globalAlpha=.35;drawFig(cx,cy+100,s*big,ang,'#fff',0,0);x.globalAlpha=1}
 
  // キラキラ
- if(stage>=5&&spd>.03){for(let i=0;i<stage-3;i++)parts.push({x:cx+10,y:cy-80*s+30,vx:(Math.random()-.5)*600*s,vy:(Math.random()-.8)*600*s,l:1,h:Math.random()*360})}
+ if(stage>=5&&spd>.03){for(let i=0;i<stage-3;i++)parts.push({x:gx,y:gy,vx:(Math.random()-.5)*600*s,vy:(Math.random()-.8)*600*s,l:1,h:Math.random()*360})}
  parts=parts.filter(p=>(p.l-=dt*.8)>0);
  for(const p of parts){p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=500*s*dt;x.save();x.translate(p.x,p.y);x.rotate(t*5);x.globalAlpha=p.l;x.fillStyle=`hsl(${p.h},100%,65%)`;
   x.beginPath();for(let j=0;j<10;j++){const r=j%2?4:11;x.lineTo(Math.cos(j*Math.PI/5)*r*s*1.5,Math.sin(j*Math.PI/5)*r*s*1.5)}x.fill();x.restore()}
